@@ -78,3 +78,83 @@ Z tej funkcji korzystasz, gdy chcesz wgrać poprawki do kodu, nowe funkcje lub z
 
 Po osiągnięciu 100% panel wyświetli komunikat **"Update Successful\! Rebooting..."**. Sterownik automatycznie zrestartuje się w ciągu kilku sekund i uruchomi się już z nowym programem. Wszystkie zapisane wcześniej hasła do Wi-Fi w pamięci `Preferences` zostaną zachowane\!
 
+# **📖 USER MANUAL: ESP32 Gateway Controller (brama40)**
+
+The controller allows you to wirelessly open and close the gate (and two additional devices, e.g. a wicket and lighting) using a phone, tablet or computer via a Wi-Fi network.
+
+## **🟢 1\. Meaning of the status LED**
+
+The LED on the housing indicates the current status of the controller:
+
+* **Fast flashing:**The controller starts and tries to connect to your home Wi-Fi network.  
+* **Slow flashing (every 1 second):**The controller is connected to your home Wi-Fi network and operates in remote mode.  
+* **Double flashing (short flashes):**The controller did not find the home Wi-Fi network and started its own emergency network (**AP Configuration Mode**).  
+* **Continuous light:**The relay is currently activated (the gateway responds) or new software is being loaded.
+
+## **📱 2\. Daily operation (on your home Wi-Fi network)**
+
+If the driver has already been configured with your home router:
+
+1. Connect your phone to **Your home Wi-Fi network**.  
+2. Open your web browser (e.g. Chrome, Safari) and enter the following in the address bar:`http://brama40.local`  
+3. The control panel will appear on the screen:  
+   * STATUS: Displays the current status of the gate (a legible GREEN inscription means the gate is OPEN, and RED – CLOSED).   
+   * Button **OPEN / CLOSE**: Activates the main gate.  
+   * Buttons **AUX1** / **AUX2**: They activate additional functions (e.g. gate, lighting).
+
+## **⚙️ 3\. First time launch or change Wi-Fi network (Failsafe Mode)**
+
+If you change your router or Wi-Fi password, or are starting the device for the first time, the LED will flash twice. This indicates that the controller is waiting for configuration.
+
+1. Turn on Wi-Fi on your phone and search for available networks.  
+2. Connect to the network called:**admin**  
+3. Enter the password for this network:**adminadmin**  
+4. **Important (especially for Samsung phones):**If your phone displays a message*"This network does not have internet access. Would you like to stay connected?"*– click **YES** You can also turn off cellular data (LTE/5G) on your phone during setup.  
+5. Open your web browser and enter the address manually:`http://192.168.4.1/setup`  
+6. You will see a secure setup form.**The fields are blank by default because the controller hides your current passwords for security reasons. Principle of operation of fields:**The form is intelligent – ​​you only enter what you want to change.  
+* If you only want to change your home Wi-Fi, enter the network name (SSID) and password, and the remaining fields (AP Network Name, AP Password, Host Name)**leave completely blank**The controller will retain their current settings.  
+* *Attention:*The new fallback AP password must have **minimum 8 characters**If you enter a shorter password, the controller will ignore the change for security reasons and keep the current password.  
+7. After confirming the settings, the phone screen will appear **Write Status Table** You will see a detailed report there:  
+* Changed – for items that have just been updated.  
+* No changes – for items you left blank (the device retained the previous configuration).  
+8. The page will display a countdown (6 seconds), after which the controller will automatically restart and attempt to connect to the new network, and the phone will return to the home screen.  
+   
+
+## **🔄 4\. Factory Reset**
+
+If you make a mistake when entering your home Wi-Fi password and lose contact with the controller, you can reset it using the physical button on the system housing.
+
+1. Locate the reset button on your device (marked as **BUTTON 0**).  
+2. Press it and hold **continuously for 10 seconds**.  
+3. The driver will erase all saved network names and passwords and then automatically restart.  
+4. The device will return to point 3 of this manual (it will start the emergency network`admin`and will wait for a new configuration).
+
+# **🌐 OVER THE AIR UPDATE (ElegantOTA)**
+
+You use this function when you want to upload code fixes, new features, or a modified program.
+
+### **Step 1: Preparing the program file**
+
+1. Open the project in the Arduino IDE.  
+2. In the top menu, select:**Sketch** \-\> **Export compiled program** (Szkic \-\> Export compiled Binary).  
+3. The Arduino IDE will create a file with the extension**`.bin`**in your project folder. This is the finished update file.
+
+### **Step 2: Entering the update panel**
+
+1. Make sure your phone/computer is on the same network as the gateway controller.  
+2. Open your web browser and add**`/update`**at the end of the controller address:  
+   * If you are on a home network:`http://brama40.local/update`  
+   * If you are connected directly to the controller's emergency network:`http://192.168.4.1/update`
+
+### **Step 3: Uploading a new program**
+
+1. An elegant, dark panel with the inscription will appear on the screen **ElegantOTA**.  
+2. Make sure the option is checked **Firmware**(software).  
+3. Click the button**Choose File**(Choose file) and select the previously exported file`.bin`.  
+4. Click**Upload**(Submit).  
+5. A progress bar will appear on the screen. During the upload, the LED on the controller will glow solid.
+
+### **Step 4: Finishing**
+
+Once it reaches 100%, the panel will display a message**"Update Successful\! Rebooting..."**The controller will automatically restart within a few seconds and launch with the new program. All previously saved Wi-Fi passwords are stored in memory.`Preferences`will be preserved\!
+
